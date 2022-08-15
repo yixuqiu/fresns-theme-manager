@@ -1,0 +1,10 @@
+{
+    "unikey": "$STUDLY_NAME$",
+    "name": "$STUDLY_NAME$ Theme",
+    "description": "$STUDLY_NAME$ theme made by fresns",
+    "author": "Fresns",
+    "authorLink": "https://fresns.org",
+    "version": "1.0.0",
+    "functions": false,
+    "functionKeys": []
+}
