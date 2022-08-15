@@ -8,11 +8,11 @@
 
 namespace Fresns\ThemeManager\Commands;
 
-use Illuminate\Support\Str;
+use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
 
 class NewThemeCommand extends Command
 {

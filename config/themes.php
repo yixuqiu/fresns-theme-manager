@@ -17,7 +17,7 @@ return [
             'assets'  => [
                 'path' => 'assets',
                 'generate' => true,
-                'in_multi' => false
+                'in_multi' => false,
             ],
         ],
     ],

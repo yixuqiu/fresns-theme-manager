@@ -11,8 +11,8 @@ namespace Fresns\ThemeManager\Commands\Traits;
 use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
 use Fresns\ThemeManager\Support\Json;
 use Fresns\ThemeManager\Support\Stub;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 trait StubTrait
 {
@@ -121,7 +121,6 @@ trait StubTrait
         } else {
             $content = File::get($stubFilePath);
         }
-
 
         // format json style
         if (str_contains($stubPath, 'json')) {
