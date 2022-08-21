@@ -41,6 +41,9 @@ LOGO;
 
         $this->comment('');
         $this->comment('Available commands:');
+
+        $this->comment('');
+        $this->comment('theme');
         $this->listAdminCommands();
     }
 

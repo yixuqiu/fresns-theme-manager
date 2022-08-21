@@ -11,6 +11,7 @@ namespace Fresns\ThemeManager\Commands;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Fresns\ThemeManager\Support\Process;
 
 class ThemeInstallCommand extends Command
 {
@@ -37,15 +38,25 @@ class ThemeInstallCommand extends Command
             $theme = new Theme($unikey);
             $theme->manualAddNamespace();
 
+            event('theme:installing', [[
+                'unikey' => $unikey,
+            ]]);
+
             $this->call('theme:publish', [
                 'name' => $theme->getStudlyName(),
             ]);
 
             // Triggers top-level computation of composer.json hash values and installation of extension packages
-            $isOk = @exec('composer update');
-            if ($isOk === false) {
-                throw new \RuntimeException('Failed to install packages');
+            // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
+            $process = Process::run('composer update', $this->output);
+            if (!$process->isSuccessful()) {
+                $this->error('Failed to install packages, calc composer.json hash value fail');
+                return 0;
             }
+
+            event('theme:installed', [[
+                'unikey' => $unikey,
+            ]]);
 
             $this->info("Installed: {$theme->getStudlyName()}");
         } catch (\Throwable $e) {

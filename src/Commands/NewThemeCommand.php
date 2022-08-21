@@ -8,11 +8,12 @@
 
 namespace Fresns\ThemeManager\Commands;
 
-use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
+use Illuminate\Support\Str;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
+use Fresns\ThemeManager\Support\Process;
+use Fresns\ThemeManager\Support\Config\GenerateConfigReader;
 
 class NewThemeCommand extends Command
 {
@@ -67,7 +68,7 @@ class NewThemeCommand extends Command
         $this->generateFiles();
 
         // composer dump-autoload
-        @exec('composer dump-autoload');
+        Process::run('composer dump-autoload', $this->output);
 
         $this->info("Theme [{$this->themeName}] created successfully");
     }

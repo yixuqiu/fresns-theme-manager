@@ -54,7 +54,7 @@ class ThemeUnzipCommand extends Command
         }
 
         File::copyDirectory($tmpDirPath, $themeDir);
-        File::cleanDirectory($tmpDirPath);
+        File::deleteDirectory($tmpDirPath);
 
         Cache::put('install:theme_unikey', $themeUnikey, now()->addMinutes(5));
 
@@ -71,7 +71,7 @@ class ThemeUnzipCommand extends Command
 
         $currentBackupCount = count($dirs);
 
-        $targetPath = sprintf('%s/%s-%s-%s', $backupDir, $themeUnikey, $currentBackupCount + 1, date('YmdHis'));
+        $targetPath = sprintf('%s/%s-%s-%s', $backupDir, $themeUnikey, date('YmdHis'), $currentBackupCount + 1);
 
         File::copyDirectory($themeDir, $targetPath);
         File::cleanDirectory($themeDir);
