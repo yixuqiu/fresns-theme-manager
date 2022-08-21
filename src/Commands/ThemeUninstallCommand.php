@@ -8,10 +8,10 @@
 
 namespace Fresns\ThemeManager\Commands;
 
+use Fresns\ThemeManager\Support\Process;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Fresns\ThemeManager\Support\Process;
 
 class ThemeUninstallCommand extends Command
 {

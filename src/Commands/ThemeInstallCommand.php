@@ -8,10 +8,10 @@
 
 namespace Fresns\ThemeManager\Commands;
 
+use Fresns\ThemeManager\Support\Process;
 use Fresns\ThemeManager\Theme;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
-use Fresns\ThemeManager\Support\Process;
 
 class ThemeInstallCommand extends Command
 {
@@ -49,8 +49,9 @@ class ThemeInstallCommand extends Command
             // Triggers top-level computation of composer.json hash values and installation of extension packages
             // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
             $process = Process::run('composer update', $this->output);
-            if (!$process->isSuccessful()) {
+            if (! $process->isSuccessful()) {
                 $this->error('Failed to install packages, calc composer.json hash value fail');
+
                 return 0;
             }
 
