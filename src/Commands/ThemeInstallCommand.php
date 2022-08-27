@@ -25,6 +25,11 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
+            if (str_contains($path, config('themes.paths.plugins'))) {
+                $this->error('Failed to install themes from theme directory');
+                return 0;
+            }
+
             $this->call('theme:unzip', [
                 'path' => $path,
             ]);
