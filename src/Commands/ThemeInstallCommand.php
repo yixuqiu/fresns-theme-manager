@@ -9,9 +9,6 @@
 namespace Fresns\ThemeManager\Commands;
 
 use Fresns\ThemeManager\Theme;
-use Fresns\ThemeManager\Support\Json;
-use Fresns\ThemeManager\Support\Process;
-use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
@@ -27,7 +24,7 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
-            if (!str_contains($path, config('plugins.paths.plugins'))) {
+            if (! str_contains($path, config('plugins.paths.plugins'))) {
                 $this->call('theme:unzip', [
                     'path' => $path,
                 ]);
@@ -44,8 +41,9 @@ class ThemeInstallCommand extends Command
             }
 
             $theme = new Theme($unikey);
-            if (!$theme->isValidTheme()) {
-                $this->error("theme is invalid");
+            if (! $theme->isValidTheme()) {
+                $this->error('theme is invalid');
+
                 return 0;
             }
 

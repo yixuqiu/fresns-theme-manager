@@ -9,9 +9,6 @@
 namespace Fresns\ThemeManager\Commands;
 
 use Fresns\ThemeManager\Theme;
-use Fresns\ThemeManager\Support\Json;
-use Fresns\ThemeManager\Support\Process;
-use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
