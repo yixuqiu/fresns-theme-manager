@@ -8,8 +8,10 @@
 
 namespace Fresns\ThemeManager\Commands;
 
-use Fresns\ThemeManager\Support\Process;
 use Fresns\ThemeManager\Theme;
+use Fresns\ThemeManager\Support\Json;
+use Fresns\ThemeManager\Support\Process;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -40,10 +42,8 @@ class ThemeUninstallCommand extends Command
             ]);
 
             $theme = new Theme($unikey);
-            File::deleteDirectory($theme->getThemePath());
 
-            // Triggers top-level computation of composer.json hash values and installation of extension themes
-            Process::run('composer update', $this->output);
+            File::deleteDirectory($theme->getThemePath());
 
             event('theme:uninstalled', [[
                 'unikey' => $unikey,

@@ -8,8 +8,10 @@
 
 namespace Fresns\ThemeManager\Commands;
 
-use Fresns\ThemeManager\Support\Process;
 use Fresns\ThemeManager\Theme;
+use Fresns\ThemeManager\Support\Json;
+use Fresns\ThemeManager\Support\Process;
+use Illuminate\Support\Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
@@ -25,23 +27,28 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
-            if (str_contains($path, config('themes.paths.plugins'))) {
-                $this->error('Failed to install themes from theme directory');
+            if (!str_contains($path, config('plugins.paths.plugins'))) {
+                $this->call('theme:unzip', [
+                    'path' => $path,
+                ]);
 
-                return 0;
+                $unikey = Cache::pull('install:plugin_unikey');
+            } else {
+                $unikey = dirname($path);
             }
 
-            $this->call('theme:unzip', [
-                'path' => $path,
-            ]);
-
-            $unikey = Cache::pull('install:theme_unikey');
             if (! $unikey) {
                 info('Failed to unzip, couldn\'t get the theme unikey');
 
                 return 0;
             }
+
             $theme = new Theme($unikey);
+            if (!$theme->isValidTheme()) {
+                $this->error("theme is invalid");
+                return 0;
+            }
+
             $theme->manualAddNamespace();
 
             event('theme:installing', [[
@@ -51,15 +58,6 @@ class ThemeInstallCommand extends Command
             $this->call('theme:publish', [
                 'name' => $theme->getStudlyName(),
             ]);
-
-            // Triggers top-level computation of composer.json hash values and installation of extension packages
-            // @see https://getcomposer.org/doc/03-cli.md#process-exit-codes
-            $process = Process::run('composer update', $this->output);
-            if (! $process->isSuccessful()) {
-                $this->error('Failed to install packages, calc composer.json hash value fail');
-
-                return 0;
-            }
 
             event('theme:installed', [[
                 'unikey' => $unikey,
