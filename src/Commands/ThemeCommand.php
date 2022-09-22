@@ -57,6 +57,8 @@ LOGO;
             return [];
         })->toArray();
 
+        \ksort($commands);
+
         $width = $this->getColumnWidth($commands);
 
         /** @var Command $command */
