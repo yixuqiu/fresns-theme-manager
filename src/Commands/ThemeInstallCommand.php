@@ -25,9 +25,13 @@ class ThemeInstallCommand extends Command
         try {
             $path = $this->argument('path');
             if (! str_contains($path, config('plugins.paths.plugins'))) {
-                $this->call('theme:unzip', [
+                $exitCode = $this->call('theme:unzip', [
                     'path' => $path,
                 ]);
+
+                if ($exitCode != 0) {
+                    return $exitCode;
+                }
 
                 $unikey = Cache::pull('install:plugin_unikey');
             } else {
@@ -37,14 +41,14 @@ class ThemeInstallCommand extends Command
             if (! $unikey) {
                 info('Failed to unzip, couldn\'t get the theme unikey');
 
-                return 0;
+                return -1;
             }
 
             $theme = new Theme($unikey);
             if (! $theme->isValidTheme()) {
                 $this->error('theme is invalid');
 
-                return 0;
+                return -1;
             }
 
             $theme->manualAddNamespace();
@@ -53,9 +57,13 @@ class ThemeInstallCommand extends Command
                 'unikey' => $unikey,
             ]]);
 
-            $this->call('theme:publish', [
+            $exitCode = $this->call('theme:publish', [
                 'name' => $theme->getStudlyName(),
             ]);
+            
+            if ($exitCode != 0) {
+                return $exitCode;
+            }
 
             event('theme:installed', [[
                 'unikey' => $unikey,
@@ -64,6 +72,7 @@ class ThemeInstallCommand extends Command
             $this->info("Installed: {$theme->getStudlyName()}");
         } catch (\Throwable $e) {
             $this->error("Install fail: {$e->getMessage()}");
+            return -1;
         }
 
         return 0;
