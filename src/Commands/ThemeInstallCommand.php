@@ -60,7 +60,7 @@ class ThemeInstallCommand extends Command
             $exitCode = $this->call('theme:publish', [
                 'name' => $theme->getStudlyName(),
             ]);
-            
+
             if ($exitCode != 0) {
                 return $exitCode;
             }
@@ -72,6 +72,7 @@ class ThemeInstallCommand extends Command
             $this->info("Installed: {$theme->getStudlyName()}");
         } catch (\Throwable $e) {
             $this->error("Install fail: {$e->getMessage()}");
+
             return -1;
         }
 
