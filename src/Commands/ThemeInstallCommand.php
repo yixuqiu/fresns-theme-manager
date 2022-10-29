@@ -24,7 +24,7 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
-            if (! str_contains($path, config('plugins.paths.plugins'))) {
+            if (! str_contains($path, config('themes.paths.themes'))) {
                 $exitCode = $this->call('theme:unzip', [
                     'path' => $path,
                 ]);
@@ -35,7 +35,7 @@ class ThemeInstallCommand extends Command
 
                 $unikey = Cache::pull('install:plugin_unikey');
             } else {
-                $unikey = dirname($path);
+                $unikey = basename($path);
             }
 
             if (! $unikey) {
