@@ -24,7 +24,8 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
-            if (! str_contains($path, config('themes.paths.themes'))) {
+            $extensionPath = str_replace(base_path().'/', '', config('themes.paths.themes'));
+            if (! str_contains($path, $extensionPath)) {
                 $exitCode = $this->call('theme:unzip', [
                     'path' => $path,
                 ]);
