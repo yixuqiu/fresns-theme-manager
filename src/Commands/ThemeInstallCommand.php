@@ -34,7 +34,7 @@ class ThemeInstallCommand extends Command
                     return $exitCode;
                 }
 
-                $unikey = Cache::pull('install:plugin_unikey');
+                $unikey = Cache::pull('install:theme_unikey');
             } else {
                 $unikey = basename($path);
             }

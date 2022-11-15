@@ -271,7 +271,7 @@ trait StubTrait
     }
 
     /**
-     * Get replacement for $PLUGIN_NAMESPACE$.
+     * Get replacement for $THEME_NAMESPACE$.
      *
      * @return string
      */
