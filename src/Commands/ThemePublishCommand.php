@@ -23,7 +23,7 @@ class ThemePublishCommand extends Command
         $theme = new Theme($this->argument('name'));
 
         if (! $theme->isValidTheme()) {
-            return 0;
+            return Command::SUCCESS;
         }
 
         File::cleanDirectory($theme->getAssetsPath());
@@ -31,6 +31,6 @@ class ThemePublishCommand extends Command
 
         $this->info("Published: {$theme->getUnikey()}");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

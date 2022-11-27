@@ -23,13 +23,13 @@ class ThemeUnpublishCommand extends Command
         $theme = new Theme($this->argument('name'));
 
         if (! $theme->isValidTheme()) {
-            return 0;
+            return Command::SUCCESS;
         }
 
         File::deleteDirectory($theme->getAssetsPath());
 
         $this->info("Unpublished: {$theme->getUnikey()}");
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

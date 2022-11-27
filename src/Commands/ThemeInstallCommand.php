@@ -42,14 +42,14 @@ class ThemeInstallCommand extends Command
             if (! $unikey) {
                 info('Failed to unzip, couldn\'t get the theme unikey');
 
-                return -1;
+                return Command::FAILURE;
             }
 
             $theme = new Theme($unikey);
             if (! $theme->isValidTheme()) {
                 $this->error('theme is invalid');
 
-                return -1;
+                return Command::FAILURE;
             }
 
             $theme->manualAddNamespace();
@@ -74,9 +74,9 @@ class ThemeInstallCommand extends Command
         } catch (\Throwable $e) {
             $this->error("Install fail: {$e->getMessage()}");
 
-            return -1;
+            return Command::FAILURE;
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

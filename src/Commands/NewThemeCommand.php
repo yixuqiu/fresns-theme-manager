@@ -58,7 +58,7 @@ class NewThemeCommand extends Command
             if (! $this->option('force')) {
                 $this->error("Theme {$this->theme->getUnikey()} exists");
 
-                return 0;
+                return Command::SUCCESS;
             }
 
             File::deleteDirectory($this->theme->getThemePath());
