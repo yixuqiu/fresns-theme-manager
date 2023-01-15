@@ -60,16 +60,16 @@ class NewThemeCommand extends Command
 
                 return Command::FAILURE;
             }
-            
+
             File::deleteDirectory($this->theme->getThemePath());
         }
-        
+
         $this->generateFolders();
         $this->generateFiles();
-        
+
         // composer dump-autoload
         Process::run('composer dump-autoload', $this->output);
-        
+
         $this->info("Theme [{$this->themeName}] created successfully");
 
         return Command::SUCCESS;

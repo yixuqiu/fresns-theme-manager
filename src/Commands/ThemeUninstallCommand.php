@@ -49,6 +49,7 @@ class ThemeUninstallCommand extends Command
             $this->info("Uninstalled: {$unikey}");
         } catch (\Throwable $e) {
             $this->error("Uninstall fail: {$e->getMessage()}");
+
             return Command::FAILURE;
         }
 
