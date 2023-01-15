@@ -31,7 +31,7 @@ class ThemeUnzipCommand extends Command
             \info($message = 'Theme file does not exist: '.$themeJsonPath);
             $this->error('install theme error '.$message);
 
-            return Command::SUCCESS;
+            return Command::FAILURE;
         }
 
         $theme = Json::make($themeJsonPath);
@@ -41,7 +41,7 @@ class ThemeUnzipCommand extends Command
             \info('Failed to get theme unikey: '.var_export($themeUnikey, true));
             $this->error('install theme error, theme.json is invalid theme json');
 
-            return Command::SUCCESS;
+            return Command::FAILURE;
         }
 
         $themeDir = sprintf('%s/%s',

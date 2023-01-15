@@ -58,19 +58,21 @@ class NewThemeCommand extends Command
             if (! $this->option('force')) {
                 $this->error("Theme {$this->theme->getUnikey()} exists");
 
-                return Command::SUCCESS;
+                return Command::FAILURE;
             }
-
+            
             File::deleteDirectory($this->theme->getThemePath());
         }
-
+        
         $this->generateFolders();
         $this->generateFiles();
-
+        
         // composer dump-autoload
         Process::run('composer dump-autoload', $this->output);
-
+        
         $this->info("Theme [{$this->themeName}] created successfully");
+
+        return Command::SUCCESS;
     }
 
     /**

@@ -20,7 +20,7 @@ class ThemeMakeCommand extends Command
 
     public function handle()
     {
-        $this->call('new-theme', [
+        return $this->call('new-theme', [
             'name' => $this->argument('name'),
             '--force' => $this->option('force'),
         ]);

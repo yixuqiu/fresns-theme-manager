@@ -23,7 +23,7 @@ class ThemePublishCommand extends Command
         $theme = new Theme($this->argument('name'));
 
         if (! $theme->isValidTheme()) {
-            return Command::SUCCESS;
+            return Command::FAILURE;
         }
 
         File::cleanDirectory($theme->getAssetsPath());
