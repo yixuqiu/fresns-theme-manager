@@ -29,6 +29,7 @@ class ThemeUninstallCommand extends Command
 
             if ($this->validatePluginRootPath($theme)) {
                 $this->error('Failed to operate themes root path');
+
                 return Command::FAILURE;
             }
 
