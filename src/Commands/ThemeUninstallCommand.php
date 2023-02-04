@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUninstallCommand extends Command
 {
+    use Traits\WorkPluginNameTrait;
+
     protected $signature = 'theme:uninstall {name}
         {--cleardata : Trigger clear theme data}';
 
@@ -22,31 +24,35 @@ class ThemeUninstallCommand extends Command
     public function handle()
     {
         try {
-            $unikey = $this->argument('name');
+            $themeName = $this->getPluginName();
+            $theme = new Theme($themeName);
+
+            if ($this->validatePluginRootPath($theme)) {
+                $this->error('Failed to operate themes root path');
+                return Command::FAILURE;
+            }
 
             event('theme:uninstalling', [[
-                'unikey' => $unikey,
+                'unikey' => $themeName,
             ]]);
 
             if ($this->option('cleardata')) {
                 event('themes.cleandata', [[
-                    'unikey' => $unikey,
+                    'unikey' => $themeName,
                 ]]);
             }
 
             $this->call('theme:unpublish', [
-                'name' => $unikey,
+                'name' => $themeName,
             ]);
-
-            $theme = new Theme($unikey);
 
             File::deleteDirectory($theme->getThemePath());
 
             event('theme:uninstalled', [[
-                'unikey' => $unikey,
+                'unikey' => $themeName,
             ]]);
 
-            $this->info("Uninstalled: {$unikey}");
+            $this->info("Uninstalled: {$themeName}");
         } catch (\Throwable $e) {
             $this->error("Uninstall fail: {$e->getMessage()}");
 

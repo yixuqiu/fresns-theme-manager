@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUnpublishCommand extends Command
 {
+    use Traits\WorkPluginNameTrait;
+
     protected $signature = 'theme:unpublish {name}';
 
     protected $description = 'Distribute static resources of the theme';
 
     public function handle()
     {
-        $theme = new Theme($this->argument('name'));
+        $themeName = $this->getPluginName();
+        $theme = new Theme($themeName);
 
         if (! $theme->isValidTheme()) {
             return Command::FAILURE;
