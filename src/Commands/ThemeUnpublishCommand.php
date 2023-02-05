@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUnpublishCommand extends Command
 {
-    use Traits\WorkPluginNameTrait;
+    use Traits\WorkThemeNameTrait;
 
     protected $signature = 'theme:unpublish {name}';
 
@@ -22,7 +22,7 @@ class ThemeUnpublishCommand extends Command
 
     public function handle()
     {
-        $themeName = $this->getPluginName();
+        $themeName = $this->getThemeName();
         $theme = new Theme($themeName);
 
         if (! $theme->isValidTheme()) {

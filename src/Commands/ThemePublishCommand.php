@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 
 class ThemePublishCommand extends Command
 {
-    use Traits\WorkPluginNameTrait;
+    use Traits\WorkThemeNameTrait;
 
     protected $signature = 'theme:publish {name}';
 
@@ -22,7 +22,7 @@ class ThemePublishCommand extends Command
 
     public function handle()
     {
-        $themeName = $this->getPluginName();
+        $themeName = $this->getThemeName();
         $theme = new Theme($themeName);
 
         if (! $theme->isValidTheme()) {

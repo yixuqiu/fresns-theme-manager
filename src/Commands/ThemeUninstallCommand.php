@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUninstallCommand extends Command
 {
-    use Traits\WorkPluginNameTrait;
+    use Traits\WorkThemeNameTrait;
 
     protected $signature = 'theme:uninstall {name}
         {--cleardata : Trigger clear theme data}';
@@ -24,10 +24,10 @@ class ThemeUninstallCommand extends Command
     public function handle()
     {
         try {
-            $themeName = $this->getPluginName();
+            $themeName = $this->getThemeName();
             $theme = new Theme($themeName);
 
-            if ($this->validatePluginRootPath($theme)) {
+            if ($this->validateThemeRootPath($theme)) {
                 $this->error('Failed to operate themes root path');
 
                 return Command::FAILURE;
