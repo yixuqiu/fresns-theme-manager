@@ -14,7 +14,10 @@ trait WorkThemeNameTrait
     {
         $themeName = $this->argument('name');
         if (! $themeName) {
-            $themeName = basename(getcwd());
+            $themeRootPath = config('themes.paths.themes');
+            if (str_contains(getcwd(), $themeRootPath)) {
+                $themeName = basename(getcwd());
+            }
         }
 
         return $themeName;
