@@ -16,6 +16,7 @@ class ThemeInstallCommand extends Command
 {
     protected $signature = 'theme:install {path}
         {--seed}
+        {--is_dir}
         ';
 
     protected $description = 'Install the theme from the specified path';
@@ -24,6 +25,29 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
+
+            if ($this->option('is_dir')) {
+                $pluginDirectory = $path;
+
+                if (strpos($pluginDirectory, '/') == false) {
+                    $pluginDirectory = "extensions/themes/{$pluginDirectory}";
+                }
+
+                if (str_starts_with($pluginDirectory, '/')) {
+                    $pluginDirectory = realpath($pluginDirectory);
+                } else {
+                    $pluginDirectory = realpath(base_path($pluginDirectory));
+                }
+
+                $path = $pluginDirectory;
+            }
+
+            if (!$path || !file_exists($path)) {
+                $this->error('Failed to unzip, couldn\'t find the theme path');
+
+                return Command::FAILURE;
+            }
+
             $extensionPath = str_replace(base_path().'/', '', config('themes.paths.themes'));
             if (! str_contains($path, $extensionPath)) {
                 $exitCode = $this->call('theme:unzip', [
