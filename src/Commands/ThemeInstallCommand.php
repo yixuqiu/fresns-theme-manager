@@ -42,7 +42,7 @@ class ThemeInstallCommand extends Command
                 $path = $pluginDirectory;
             }
 
-            if (!$path || !file_exists($path)) {
+            if (! $path || ! file_exists($path)) {
                 $this->error('Failed to unzip, couldn\'t find the theme path');
 
                 return Command::FAILURE;
