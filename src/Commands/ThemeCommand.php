@@ -2,7 +2,7 @@
 
 /*
  * Fresns (https://fresns.org)
- * Copyright (C) 2021-Present Jarvis Tang
+ * Copyright (C) 2021-Present Jevan Tang
  * Released under the Apache-2.0 License.
  */
 
@@ -27,12 +27,12 @@ class ThemeCommand extends Command
      * @var string
      */
     public static $logo = <<<LOGO
-  ________                           __  ___                                 
+  ________                           __  ___
  /_  __/ /_  ___  ____ ___  ___     /  |/  /___ _____  ____ _____ ____  _____
   / / / __ \/ _ \/ __ `__ \/ _ \   / /|_/ / __ `/ __ \/ __ `/ __ `/ _ \/ ___/
- / / / / / /  __/ / / / / /  __/  / /  / / /_/ / / / / /_/ / /_/ /  __/ /    
-/_/ /_/ /_/\___/_/ /_/ /_/\___/  /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/     
-                                                          /____/             
+ / / / / / /  __/ / / / / /  __/  / /  / / /_/ / / / / /_/ / /_/ /  __/ /
+/_/ /_/ /_/\___/_/ /_/ /_/\___/  /_/  /_/\__,_/_/ /_/\__,_/\__, /\___/_/
+                                                          /____/
 LOGO;
 
     public function handle(): void
