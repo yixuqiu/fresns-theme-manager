@@ -8,19 +8,19 @@
 
 namespace Fresns\ThemeManager\Commands\Traits;
 
-trait WorkThemeNameTrait
+trait WorkThemeFskeyTrait
 {
-    public function getThemeName()
+    public function getThemeFskey()
     {
-        $themeName = $this->argument('name');
-        if (! $themeName) {
+        $themeFskey = $this->argument('fskey');
+        if (! $themeFskey) {
             $themeRootPath = config('themes.paths.themes');
             if (str_contains(getcwd(), $themeRootPath)) {
-                $themeName = basename(getcwd());
+                $themeFskey = basename(getcwd());
             }
         }
 
-        return $themeName;
+        return $themeFskey;
     }
 
     public function validateThemeRootPath($theme)

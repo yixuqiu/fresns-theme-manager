@@ -58,18 +58,18 @@ class ThemeInstallCommand extends Command
                     return $exitCode;
                 }
 
-                $unikey = Cache::pull('install:theme_unikey');
+                $fskey = Cache::pull('install:theme_fskey');
             } else {
-                $unikey = basename($path);
+                $fskey = basename($path);
             }
 
-            if (! $unikey) {
-                info('Failed to unzip, couldn\'t get the theme unikey');
+            if (! $fskey) {
+                info('Failed to unzip, couldn\'t get the theme fskey');
 
                 return Command::FAILURE;
             }
 
-            $theme = new Theme($unikey);
+            $theme = new Theme($fskey);
             if (! $theme->isValidTheme()) {
                 $this->error('theme is invalid');
 
@@ -79,11 +79,11 @@ class ThemeInstallCommand extends Command
             $theme->manualAddNamespace();
 
             event('theme:installing', [[
-                'unikey' => $unikey,
+                'fskey' => $fskey,
             ]]);
 
             $exitCode = $this->call('theme:publish', [
-                'name' => $theme->getStudlyName(),
+                'fskey' => $theme->getStudlyName(),
             ]);
 
             if ($exitCode != 0) {
@@ -91,7 +91,7 @@ class ThemeInstallCommand extends Command
             }
 
             event('theme:installed', [[
-                'unikey' => $unikey,
+                'fskey' => $fskey,
             ]]);
 
             $this->info("Installed: {$theme->getStudlyName()}");

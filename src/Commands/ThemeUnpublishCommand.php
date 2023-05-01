@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUnpublishCommand extends Command
 {
-    use Traits\WorkThemeNameTrait;
+    use Traits\WorkThemeFskeyTrait;
 
-    protected $signature = 'theme:unpublish {name}';
+    protected $signature = 'theme:unpublish {fskey}';
 
     protected $description = 'Distribute static resources of the theme';
 
     public function handle()
     {
-        $themeName = $this->getThemeName();
-        $theme = new Theme($themeName);
+        $themeFskey = $this->getThemeFskey();
+        $theme = new Theme($themeFskey);
 
         if (! $theme->isValidTheme()) {
             return Command::FAILURE;
@@ -31,7 +31,7 @@ class ThemeUnpublishCommand extends Command
 
         File::deleteDirectory($theme->getAssetsPath());
 
-        $this->info("Unpublished: {$theme->getUnikey()}");
+        $this->info("Unpublished: {$theme->getFskey()}");
 
         return Command::SUCCESS;
     }

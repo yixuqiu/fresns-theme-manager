@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\File;
 
 class ThemeUninstallCommand extends Command
 {
-    use Traits\WorkThemeNameTrait;
+    use Traits\WorkThemeFskeyTrait;
 
-    protected $signature = 'theme:uninstall {name}
+    protected $signature = 'theme:uninstall {fskey}
         {--cleardata : Trigger clear theme data}';
 
     protected $description = 'Install the theme from the specified path';
@@ -24,8 +24,8 @@ class ThemeUninstallCommand extends Command
     public function handle()
     {
         try {
-            $themeName = $this->getThemeName();
-            $theme = new Theme($themeName);
+            $themeFskey = $this->getThemeFskey();
+            $theme = new Theme($themeFskey);
 
             if ($this->validateThemeRootPath($theme)) {
                 $this->error('Failed to operate themes root path');
@@ -34,26 +34,26 @@ class ThemeUninstallCommand extends Command
             }
 
             event('theme:uninstalling', [[
-                'unikey' => $themeName,
+                'fskey' => $themeFskey,
             ]]);
 
             if ($this->option('cleardata')) {
                 event('themes.cleandata', [[
-                    'unikey' => $themeName,
+                    'fskey' => $themeFskey,
                 ]]);
             }
 
             $this->call('theme:unpublish', [
-                'name' => $themeName,
+                'fskey' => $themeFskey,
             ]);
 
             File::deleteDirectory($theme->getThemePath());
 
             event('theme:uninstalled', [[
-                'unikey' => $themeName,
+                'fskey' => $themeFskey,
             ]]);
 
-            $this->info("Uninstalled: {$themeName}");
+            $this->info("Uninstalled: {$themeFskey}");
         } catch (\Throwable $e) {
             $this->error("Uninstall fail: {$e->getMessage()}");
 

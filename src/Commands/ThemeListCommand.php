@@ -30,9 +30,9 @@ class ThemeListCommand extends Command
                 continue;
             }
 
-            $themeName = basename($themeDir);
+            $themeFskey = basename($themeDir);
 
-            $theme = new Theme($themeName);
+            $theme = new Theme($themeFskey);
 
             $rows[] = $theme->getThemeInfo();
         }

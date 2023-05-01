@@ -15,18 +15,18 @@ use Illuminate\Support\Str;
 
 class Theme
 {
-    protected $themeName;
+    protected $themeFskey;
 
     /**
      * @var FileManager
      */
     protected $manager;
 
-    public function __construct(?string $themeName = null)
+    public function __construct(?string $themeFskey = null)
     {
         $this->manager = new FileManager();
 
-        $this->setThemeName($themeName);
+        $this->setThemeName($themeFskey);
     }
 
     public function config(string $key, $default = null)
@@ -34,34 +34,34 @@ class Theme
         return config('themes.'.$key, $default);
     }
 
-    public function setThemeName(?string $themeName = null)
+    public function setThemeName(?string $themeFskey = null)
     {
-        $this->themeName = $themeName;
+        $this->themeFskey = $themeFskey;
     }
 
-    public function getUnikey()
+    public function getFskey()
     {
         return $this->getStudlyName();
     }
 
     public function getLowerName(): string
     {
-        return Str::lower($this->themeName);
+        return Str::lower($this->themeFskey);
     }
 
     public function getStudlyName()
     {
-        return Str::studly($this->themeName);
+        return Str::studly($this->themeFskey);
     }
 
     public function getKebabName()
     {
-        return Str::kebab($this->themeName);
+        return Str::kebab($this->themeFskey);
     }
 
     public function getSnakeName()
     {
-        return Str::snake($this->themeName);
+        return Str::snake($this->themeFskey);
     }
 
     public function getClassNamespace()
@@ -76,9 +76,9 @@ class Theme
     public function getThemePath(): ?string
     {
         $path = $this->config('paths.themes');
-        $themeName = $this->getStudlyName();
+        $themeFskey = $this->getStudlyName();
 
-        return "{$path}/{$themeName}";
+        return "{$path}/{$themeFskey}";
     }
 
     public function getAssetsPath(): ?string
@@ -88,9 +88,9 @@ class Theme
         }
 
         $path = $this->config('paths.assets');
-        $themeName = $this->getStudlyName();
+        $themeFskey = $this->getStudlyName();
 
-        return "{$path}/{$themeName}";
+        return "{$path}/{$themeFskey}";
     }
 
     public function getAssetsSourcePath(): ?string
@@ -120,11 +120,11 @@ class Theme
 
     public function exists(): bool
     {
-        if (! $themeName = $this->getStudlyName()) {
+        if (! $themeFskey = $this->getStudlyName()) {
             return false;
         }
 
-        if (in_array($themeName, $this->all())) {
+        if (in_array($themeFskey, $this->all())) {
             return true;
         }
 
@@ -138,56 +138,56 @@ class Theme
 
         $themes = [];
         foreach ($themeJsons as $themeJson) {
-            $themeName = basename(dirname($themeJson));
+            $themeFskey = basename(dirname($themeJson));
 
-            if (! $this->isValidTheme($themeName)) {
+            if (! $this->isValidTheme($themeFskey)) {
                 continue;
             }
 
-            if (! $this->isAvailableTheme($themeName)) {
+            if (! $this->isAvailableTheme($themeFskey)) {
                 continue;
             }
 
-            $themes[] = $themeName;
+            $themes[] = $themeFskey;
         }
 
         return $themes;
     }
 
-    public function isValidTheme(?string $themeName = null)
+    public function isValidTheme(?string $themeFskey = null)
     {
-        if (! $themeName) {
-            $themeName = $this->getStudlyName();
+        if (! $themeFskey) {
+            $themeFskey = $this->getStudlyName();
         }
 
-        if (! $themeName) {
+        if (! $themeFskey) {
             return false;
         }
 
         $path = $this->config('paths.themes');
 
-        $themeJsonPath = sprintf('%s/%s/theme.json', $path, $themeName);
+        $themeJsonPath = sprintf('%s/%s/theme.json', $path, $themeFskey);
 
         $themeJson = Json::make($themeJsonPath);
 
-        return $themeName == $themeJson->get('unikey');
+        return $themeFskey == $themeJson->get('fskey');
     }
 
-    public function isAvailableTheme(?string $themeName = null)
+    public function isAvailableTheme(?string $themeFskey = null)
     {
-        if (! $themeName) {
-            $themeName = $this->getStudlyName();
+        if (! $themeFskey) {
+            $themeFskey = $this->getStudlyName();
         }
 
-        if (! $themeName) {
+        if (! $themeFskey) {
             return false;
         }
 
         try {
             // Verify that the program is loaded correctly by loading the program
-            $theme = new Theme($themeName);
+            $theme = new Theme($themeFskey);
         } catch (\Throwable $e) {
-            \info("{$themeName} registration failed, not a valid theme");
+            \info("{$themeFskey} registration failed, not a valid theme");
 
             return false;
         }
@@ -197,8 +197,8 @@ class Theme
 
     public function manualAddNamespace()
     {
-        $unikey = $this->getStudlyName();
-        if (! $unikey) {
+        $fskey = $this->getStudlyName();
+        if (! $fskey) {
             return;
         }
 
@@ -209,32 +209,32 @@ class Theme
             $namespaces = config('themes.namespaces', []);
 
             foreach ($namespaces as $namespace => $paths) {
-                $appPaths = array_map(function ($path) use ($unikey) {
-                    return "{$path}/{$unikey}/app";
+                $appPaths = array_map(function ($path) use ($fskey) {
+                    return "{$path}/{$fskey}/app";
                 }, $paths);
-                $loader->addPsr4("{$namespace}\\{$unikey}\\", $appPaths, true);
+                $loader->addPsr4("{$namespace}\\{$fskey}\\", $appPaths, true);
 
-                $factoryPaths = array_map(function ($path) use ($unikey) {
-                    return "{$path}/{$unikey}/database/factories";
+                $factoryPaths = array_map(function ($path) use ($fskey) {
+                    return "{$path}/{$fskey}/database/factories";
                 }, $paths);
-                $loader->addPsr4("{$namespace}\\{$unikey}\\Database\\Factories\\", $factoryPaths, true);
+                $loader->addPsr4("{$namespace}\\{$fskey}\\Database\\Factories\\", $factoryPaths, true);
 
-                $seederPaths = array_map(function ($path) use ($unikey) {
-                    return "{$path}/{$unikey}/database/seeders";
+                $seederPaths = array_map(function ($path) use ($fskey) {
+                    return "{$path}/{$fskey}/database/seeders";
                 }, $paths);
-                $loader->addPsr4("{$namespace}\\{$unikey}\\Database\\Seeders\\", $seederPaths, true);
+                $loader->addPsr4("{$namespace}\\{$fskey}\\Database\\Seeders\\", $seederPaths, true);
 
-                $testPaths = array_map(function ($path) use ($unikey) {
-                    return "{$path}/{$unikey}/tests";
+                $testPaths = array_map(function ($path) use ($fskey) {
+                    return "{$path}/{$fskey}/tests";
                 }, $paths);
-                $loader->addPsr4("{$namespace}\\{$unikey}\\Tests\\", $testPaths, true);
+                $loader->addPsr4("{$namespace}\\{$fskey}\\Tests\\", $testPaths, true);
             }
         }
     }
 
     public function getThemeInfo()
     {
-        // Validation: Does the directory name and unikey match correctly
+        // Validation: Does the directory name and fskey match correctly
         // Available: Whether the service provider is registered successfully
         $item['Theme Name'] = "<info>{$this->getStudlyName()}</info>";
         $item['Validation'] = $this->isValidTheme() ? '<info>true</info>' : '<fg=red>false</fg=red>';

@@ -36,9 +36,9 @@ class ThemeUnzipCommand extends Command
 
         $theme = Json::make($themeJsonPath);
 
-        $themeUnikey = $theme->get('unikey');
-        if (! $themeUnikey) {
-            \info('Failed to get theme unikey: '.var_export($themeUnikey, true));
+        $themeFskey = $theme->get('fskey');
+        if (! $themeFskey) {
+            \info('Failed to get theme fskey: '.var_export($themeFskey, true));
             $this->error('install theme error, theme.json is invalid theme json');
 
             return Command::FAILURE;
@@ -46,32 +46,32 @@ class ThemeUnzipCommand extends Command
 
         $themeDir = sprintf('%s/%s',
             config('themes.paths.themes'),
-            $themeUnikey
+            $themeFskey
         );
 
         if (file_exists($themeDir)) {
-            $this->backup($themeDir, $themeUnikey);
+            $this->backup($themeDir, $themeFskey);
         }
 
         File::copyDirectory($tmpDirPath, $themeDir);
         File::deleteDirectory($tmpDirPath);
 
-        Cache::put('install:theme_unikey', $themeUnikey, now()->addMinutes(5));
+        Cache::put('install:theme_fskey', $themeFskey, now()->addMinutes(5));
 
         return Command::SUCCESS;
     }
 
-    public function backup(string $themeDir, string $themeUnikey)
+    public function backup(string $themeDir, string $themeFskey)
     {
         $backupDir = config('themes.paths.backups');
 
         File::ensureDirectoryExists($backupDir);
 
-        $dirs = File::glob("$backupDir/$themeUnikey*");
+        $dirs = File::glob("$backupDir/$themeFskey*");
 
         $currentBackupCount = count($dirs);
 
-        $targetPath = sprintf('%s/%s-%s-%s', $backupDir, $themeUnikey, date('YmdHis'), $currentBackupCount + 1);
+        $targetPath = sprintf('%s/%s-%s-%s', $backupDir, $themeFskey, date('YmdHis'), $currentBackupCount + 1);
 
         File::copyDirectory($themeDir, $targetPath);
         File::cleanDirectory($themeDir);

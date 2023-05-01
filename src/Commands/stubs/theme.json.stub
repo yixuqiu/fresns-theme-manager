@@ -1,5 +1,5 @@
 {
-    "unikey": "$STUDLY_NAME$",
+    "fskey": "$STUDLY_NAME$",
     "name": "$STUDLY_NAME$ Theme",
     "description": "$STUDLY_NAME$ theme made by fresns",
     "author": "Fresns",

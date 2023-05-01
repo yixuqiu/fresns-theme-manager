@@ -19,12 +19,12 @@ trait StubTrait
     protected $runningAsRootDir = false;
     protected $buildClassName = null;
 
-    protected function buildClass($name)
+    protected function buildClass($fskey)
     {
         $this->runningAsRootDir = false;
-        if (str_starts_with($name, 'App')) {
+        if (str_starts_with($fskey, 'App')) {
             $this->runningAsRootDir = true;
-            $this->buildClassName = $name;
+            $this->buildClassName = $fskey;
         }
 
         $content = $this->getStubContents($this->getStub());
@@ -32,9 +32,9 @@ trait StubTrait
         return $content;
     }
 
-    protected function getPath($name)
+    protected function getPath($fskey)
     {
-        $path = parent::getPath($name);
+        $path = parent::getPath($fskey);
 
         $this->type = $path;
 
@@ -62,7 +62,7 @@ trait StubTrait
     {
         $stubName = $this->getStubName();
         if (! $stubName) {
-            throw new \RuntimeException('Please provider stub name in getStubName method');
+            throw new \RuntimeException('Please provider stub fskey in getStubName method');
         }
 
         $baseStubPath = base_path("stubs/{$stubName}.stub");
@@ -85,11 +85,11 @@ trait StubTrait
      */
     public function getClass()
     {
-        return class_basename($this->argument('name'));
+        return class_basename($this->argument('fskey'));
     }
 
     /**
-     * Get the contents of the specified stub file by given stub name.
+     * Get the contents of the specified stub file by given stub fskey.
      *
      * @param $stub
      * @return string
@@ -285,26 +285,26 @@ trait StubTrait
         return str_replace('\\', '\\\\', GenerateConfigReader::read('provider')->getNamespace());
     }
 
-    public function __get($name)
+    public function __get($fskey)
     {
-        if ($name === 'theme') {
+        if ($fskey === 'theme') {
             // get Theme Name from Namespace: Theme\DemoTest => DemoTest
             $namespace = str_replace('\\', '/', app()->getNamespace());
             $namespace = rtrim($namespace, '/');
-            $themeName = basename($namespace);
+            $themeFskey = basename($namespace);
 
             // when running in rootDir
-            if ($themeName == 'App') {
-                $themeName = null;
+            if ($themeFskey == 'App') {
+                $themeFskey = null;
             }
 
             if (empty($this->theme)) {
-                $this->theme = new \Fresns\ThemeManager\Theme($themeName);
+                $this->theme = new \Fresns\ThemeManager\Theme($themeFskey);
             }
 
             return $this->theme;
         }
 
-        throw new \RuntimeException("unknown property $name");
+        throw new \RuntimeException("unknown property $fskey");
     }
 }

@@ -14,16 +14,16 @@ use Illuminate\Support\Facades\File;
 
 class ThemePublishCommand extends Command
 {
-    use Traits\WorkThemeNameTrait;
+    use Traits\WorkThemeFskeyTrait;
 
-    protected $signature = 'theme:publish {name}';
+    protected $signature = 'theme:publish {fskey}';
 
     protected $description = 'Distribute static resources of the theme';
 
     public function handle()
     {
-        $themeName = $this->getThemeName();
-        $theme = new Theme($themeName);
+        $themeFskey = $this->getThemeFskey();
+        $theme = new Theme($themeFskey);
 
         if (! $theme->isValidTheme()) {
             return Command::FAILURE;
@@ -32,7 +32,7 @@ class ThemePublishCommand extends Command
         File::cleanDirectory($theme->getAssetsPath());
         File::copyDirectory($theme->getAssetsSourcePath(), $theme->getAssetsPath());
 
-        $this->info("Published: {$theme->getUnikey()}");
+        $this->info("Published: {$theme->getFskey()}");
 
         return Command::SUCCESS;
     }

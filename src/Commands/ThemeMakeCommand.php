@@ -12,7 +12,7 @@ use Illuminate\Console\Command;
 
 class ThemeMakeCommand extends Command
 {
-    protected $signature = 'theme:make {name}
+    protected $signature = 'theme:make {fskey}
         {--force}
         ';
 
@@ -21,7 +21,7 @@ class ThemeMakeCommand extends Command
     public function handle()
     {
         return $this->call('new-theme', [
-            'name' => $this->argument('name'),
+            'fskey' => $this->argument('fskey'),
             '--force' => $this->option('force'),
         ]);
     }

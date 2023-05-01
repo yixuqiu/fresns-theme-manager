@@ -19,7 +19,7 @@ class NewThemeCommand extends Command
 {
     use Traits\StubTrait;
 
-    protected $signature = 'new-theme {name}
+    protected $signature = 'new-theme {fskey}
         {--force}
         ';
 
@@ -37,7 +37,7 @@ class NewThemeCommand extends Command
     /**
      * @var string
      */
-    protected $themeName;
+    protected $themeFskey;
 
     /**
      * Execute the console command.
@@ -49,14 +49,14 @@ class NewThemeCommand extends Command
     public function handle()
     {
         $this->filesystem = $this->laravel['files'];
-        $this->themeName = Str::afterLast($this->argument('name'), '/');
+        $this->themeFskey = Str::afterLast($this->argument('fskey'), '/');
 
-        $this->theme = new Theme($this->themeName);
+        $this->theme = new Theme($this->themeFskey);
 
         // clear directory or exit when theme exists.
         if (File::exists($this->theme->getThemePath())) {
             if (! $this->option('force')) {
-                $this->error("Theme {$this->theme->getUnikey()} exists");
+                $this->error("Theme {$this->theme->getFskey()} exists");
 
                 return Command::FAILURE;
             }
@@ -70,7 +70,7 @@ class NewThemeCommand extends Command
         // composer dump-autoload
         Process::run('composer dump-autoload', $this->output);
 
-        $this->info("Theme [{$this->themeName}] created successfully");
+        $this->info("Theme [{$this->themeFskey}] created successfully");
 
         return Command::SUCCESS;
     }
@@ -101,7 +101,7 @@ class NewThemeCommand extends Command
                 continue;
             }
 
-            $path = config('themes.paths.themes').'/'.$this->argument('name').'/'.$folder->getPath();
+            $path = config('themes.paths.themes').'/'.$this->argument('fskey').'/'.$folder->getPath();
 
             $this->filesystem->makeDirectory($path, 0755, true);
             if (config('themes.stubs.gitkeep')) {
@@ -151,9 +151,9 @@ class NewThemeCommand extends Command
     public function generateFiles()
     {
         foreach ($this->getFiles() as $stub => $file) {
-            $themeName = $this->argument('name');
+            $themeFskey = $this->argument('fskey');
 
-            $path = config('themes.paths.themes').'/'.$themeName.'/'.$file;
+            $path = config('themes.paths.themes').'/'.$themeFskey.'/'.$file;
 
             if ($keys = $this->getReplaceKeys($path)) {
                 $file = $this->getReplacedContent($file, $keys);
