@@ -16,8 +16,7 @@ class ThemeUninstallCommand extends Command
 {
     use Traits\WorkThemeFskeyTrait;
 
-    protected $signature = 'theme:uninstall {fskey}
-        {--cleardata : Trigger clear theme data}';
+    protected $signature = 'theme:uninstall {fskey}';
 
     protected $description = 'Install the theme from the specified path';
 
@@ -36,12 +35,6 @@ class ThemeUninstallCommand extends Command
             event('theme:uninstalling', [[
                 'fskey' => $themeFskey,
             ]]);
-
-            if ($this->option('cleardata')) {
-                event('themes.cleandata', [[
-                    'fskey' => $themeFskey,
-                ]]);
-            }
 
             $this->call('theme:unpublish', [
                 'fskey' => $themeFskey,
