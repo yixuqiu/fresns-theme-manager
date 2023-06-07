@@ -67,6 +67,10 @@ class ThemeUnzipCommand extends Command
 
         File::ensureDirectoryExists($backupDir);
 
+        if (! is_file($backupDir.'/.gitignore')) {
+            file_put_contents($backupDir.'/.gitignore', '*'.PHP_EOL.'!.gitignore');
+        }
+
         $dirs = File::glob("$backupDir/$themeFskey*");
 
         $currentBackupCount = count($dirs);
