@@ -96,6 +96,7 @@ class ThemeInstallCommand extends Command
 
             $this->info("Installed: {$theme->getStudlyName()}");
         } catch (\Throwable $e) {
+            info("Install fail: {$e->getMessage()}");
             $this->error("Install fail: {$e->getMessage()}");
 
             return Command::FAILURE;

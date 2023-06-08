@@ -48,6 +48,7 @@ class ThemeUninstallCommand extends Command
 
             $this->info("Uninstalled: {$themeFskey}");
         } catch (\Throwable $e) {
+            info("Uninstall fail: {$e->getMessage()}");
             $this->error("Uninstall fail: {$e->getMessage()}");
 
             return Command::FAILURE;
