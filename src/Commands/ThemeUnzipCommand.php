@@ -22,9 +22,9 @@ class ThemeUnzipCommand extends Command
 
     public function handle()
     {
-        $this->zip = new Zip();
+        $zip = new Zip();
 
-        $tmpDirPath = $this->zip->unpack($this->argument('path'));
+        $tmpDirPath = $zip->unpack($this->argument('path'));
 
         $themeJsonPath = "{$tmpDirPath}/theme.json";
         if (! file_exists($tmpDirPath)) {
