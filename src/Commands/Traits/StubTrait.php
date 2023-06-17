@@ -91,7 +91,7 @@ trait StubTrait
     /**
      * Get the contents of the specified stub file by given stub fskey.
      *
-     * @param $stub
+     * @param  $stub
      * @return string
      */
     protected function getStubContents($stubPath)
@@ -176,7 +176,7 @@ trait StubTrait
     /**
      * Get array replacement for the specified stub.
      *
-     * @param $stub
+     * @param  $stub
      * @return array
      */
     protected function getReplacement($stubPath)
