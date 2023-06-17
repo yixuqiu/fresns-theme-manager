@@ -75,11 +75,16 @@ class Zip
         // Make sure the unzip destination directory exists
         $targetPath = $targetPath ?? storage_path('app/extensions/.tmp');
         if (empty($targetPath)) {
-            throw new \RuntimeException('targetPath cannot be empty.');
+            \info("targetPath cannot be empty");
+            throw new \RuntimeException('targetPath cannot be empty');
         }
 
         if (! is_dir($targetPath)) {
             File::ensureDirectoryExists($targetPath);
+        }
+
+        if ($targetPath == $sourcePath) {
+            return $targetPath;
         }
 
         // Empty the directory to avoid leaving files of other themes

@@ -22,9 +22,16 @@ class ThemeUnzipCommand extends Command
 
     public function handle()
     {
-        $zip = new Zip();
+        $filepath = $this->argument('path');
+        try {
+            // unzip packaeg and get install command
+            $zip = new Zip();
+            $tmpDirPath = $zip->unpack($filepath);
+        } catch (\Throwable $e) {
+            $this->error("Error: file unzip failed, reason: {$e->getMessage()}, filepath is: $filepath");
 
-        $tmpDirPath = $zip->unpack($this->argument('path'));
+            return Command::FAILURE;
+        }
 
         $themeJsonPath = "{$tmpDirPath}/theme.json";
         if (! file_exists($tmpDirPath)) {
