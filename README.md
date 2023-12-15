@@ -1,4 +1,4 @@
-<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://raw.githubusercontent.com/fresns/docs/main/images/Fresns-Logo(orange).png" width="300"></a></p>
+<p align="center"><a href="https://fresns.org" target="_blank"><img src="https://files.fresns.org/images/logo.png" width="300"></a></p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/PHP-%5E8.0-blueviolet" alt="PHP">
@@ -26,7 +26,7 @@ php artisan vendor:publish --provider="Fresns\ThemeManager\Providers\ThemeServic
 
 ## Dev Docs
 
-[https://fresns.org/extensions/theme/](https://fresns.org/extensions/theme/)
+[https://docs.fresns.com/clients/theme/](https://docs.fresns.com/clients/theme/)
 
 ## Contributing
 
