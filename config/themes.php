@@ -15,7 +15,7 @@ return [
         'assets' => public_path('assets'),
 
         'generator' => [
-            'assets'  => [
+            'assets' => [
                 'path' => 'assets',
                 'generate' => true,
                 'in_multi' => false,
@@ -24,14 +24,14 @@ return [
     ],
 
     'stubs' => [
-        'path'         => dirname(__DIR__).'/src/Commands/stubs',
-        'files'        => [
-            'assets/js/app'         => 'assets/js/app.js',
-            'assets/sass/app'       => 'assets/sass/app.scss',
-            'assets/fresns.png'     => 'assets/fresns.png',
-            'theme.json'            => 'theme.json',
+        'path' => dirname(__DIR__).'/src/Commands/stubs',
+        'files' => [
+            'assets/js/app' => 'assets/js/app.js',
+            'assets/sass/app' => 'assets/sass/app.scss',
+            'assets/fresns.png' => 'assets/fresns.png',
+            'theme.json' => 'theme.json',
         ],
-        'gitkeep'      => true,
+        'gitkeep' => true,
     ],
 
     'manager' => [
