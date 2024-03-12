@@ -8,13 +8,14 @@
 
 return [
     'paths' => [
-        'base' => base_path('extensions'),
-        'backups' => base_path('extensions/backups/themes'),
-        'themes' => base_path('extensions/themes'),
-        'assets' => public_path('assets/themes'),
+        'base' => base_path('themes'),
+        'unzip_target_path' => base_path('storage/extensions/.tmp'),
+        'backups' => base_path('storage/extensions/backups'),
+        'themes' => base_path('themes'),
+        'assets' => public_path('assets'),
 
         'generator' => [
-            'assets' => [
+            'assets'  => [
                 'path' => 'assets',
                 'generate' => true,
                 'in_multi' => false,
@@ -23,14 +24,14 @@ return [
     ],
 
     'stubs' => [
-        'path' => dirname(__DIR__).'/src/Commands/stubs',
-        'files' => [
-            'assets/js/app' => 'assets/js/app.js',
-            'assets/sass/app' => 'assets/sass/app.scss',
-            'assets/fresns.png' => 'assets/fresns.png',
-            'theme.json' => 'theme.json',
+        'path'         => dirname(__DIR__).'/src/Commands/stubs',
+        'files'        => [
+            'assets/js/app'         => 'assets/js/app.js',
+            'assets/sass/app'       => 'assets/sass/app.scss',
+            'assets/fresns.png'     => 'assets/fresns.png',
+            'theme.json'            => 'theme.json',
         ],
-        'gitkeep' => true,
+        'gitkeep'      => true,
     ],
 
     'manager' => [

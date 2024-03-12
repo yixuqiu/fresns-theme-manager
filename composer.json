@@ -8,7 +8,7 @@
     "support": {
         "issues": "https://github.com/fresns/theme-manager/issues",
         "source": "https://github.com/fresns/theme-manager",
-        "docs": "https://fresns.org/extensions/theme/"
+        "docs": "https://docs.fresns.com/clients/theme/"
     },
     "authors": [
         {
@@ -26,7 +26,7 @@
     ],
     "require": {
         "php": "^8.0.2",
-        "laravel/framework": "^9.0|^10.0",
+        "laravel/framework": "^9.0|^10.0|^11.0",
         "nelexa/zip": "^4.0"
     },
     "require-dev": {},
@@ -40,40 +40,6 @@
             "providers": [
                 "Fresns\\ThemeManager\\Providers\\ThemeServiceProvider"
             ]
-        },
-        "hooks": {
-            "pre-commit": [
-                "composer check-style",
-                "composer test"
-            ],
-            "pre-push": [
-                "composer test",
-                "composer check-style"
-            ]
         }
-    },
-    "scripts": {
-        "post-update-cmd": [
-            "cghooks remove",
-            "cghooks add --ignore-lock",
-            "cghooks update"
-        ],
-        "post-merge": "composer install",
-        "post-install-cmd": [
-            "cghooks remove",
-            "cghooks add --ignore-lock",
-            "cghooks update"
-        ],
-        "cghooks": "vendor/bin/cghooks",
-        "check-style": "php-cs-fixer fix --using-cache=no --diff --dry-run --ansi",
-        "fix-style": "php-cs-fixer fix --using-cache=no --ansi",
-        "test": "phpunit --colors",
-        "psalm": "psalm --show-info=true --no-cache",
-        "psalm-fix": "psalm --no-cache --alter --issues=MissingReturnType,MissingParamType"
-    },
-    "scripts-descriptions": {
-        "test": "Run all tests.",
-        "check-style": "Run style checks (only dry run - no fixing!).",
-        "fix-style": "Run style checks and fix violations."
     }
 }
