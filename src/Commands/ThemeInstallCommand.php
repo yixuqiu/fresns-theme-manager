@@ -31,7 +31,6 @@ class ThemeInstallCommand extends Command
                 $pluginDirectory = $path;
 
                 if (strpos($pluginDirectory, '/') == false) {
-
                     if (str_contains($pluginDirectory, 'themes') == false) {
                         $pluginDirectory = "{$themeDirictoryPath}/{$pluginDirectory}";
                     }
