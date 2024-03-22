@@ -25,19 +25,19 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
+            $themeDirictoryPath = config('themes.path.themes');
 
             if ($this->option('is_dir')) {
                 $pluginDirectory = $path;
 
                 if (strpos($pluginDirectory, '/') == false) {
-                    $pluginDirectory = "extensions/themes/{$pluginDirectory}";
+
+                    if (str_contains($pluginDirectory, 'themes') == false) {
+                        $pluginDirectory = "{$themeDirictoryPath}/{$pluginDirectory}";
+                    }
                 }
 
-                if (str_starts_with($pluginDirectory, '/')) {
-                    $pluginDirectory = realpath($pluginDirectory);
-                } else {
-                    $pluginDirectory = realpath(base_path($pluginDirectory));
-                }
+                $pluginDirectory = realpath($pluginDirectory);
 
                 $path = $pluginDirectory;
             }
@@ -48,7 +48,7 @@ class ThemeInstallCommand extends Command
                 return Command::FAILURE;
             }
 
-            $extensionPath = str_replace(base_path().'/', '', config('themes.paths.themes'));
+            $extensionPath = str_replace(base_path().'/', '', $themeDirictoryPath);
             if (! str_contains($path, $extensionPath)) {
                 $exitCode = $this->call('theme:unzip', [
                     'path' => $path,
