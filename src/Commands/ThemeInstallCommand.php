@@ -25,7 +25,7 @@ class ThemeInstallCommand extends Command
     {
         try {
             $path = $this->argument('path');
-            $themeDirictoryPath = config('themes.path.themes');
+            $themeDirictoryPath = config('themes.paths.themes');
 
             if ($this->option('is_dir')) {
                 $pluginDirectory = $path;
@@ -74,8 +74,6 @@ class ThemeInstallCommand extends Command
 
                 return Command::FAILURE;
             }
-
-            $theme->manualAddNamespace();
 
             event('theme:installing', [[
                 'fskey' => $fskey,
