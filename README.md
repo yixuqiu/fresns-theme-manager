@@ -26,7 +26,7 @@ php artisan vendor:publish --provider="Fresns\ThemeManager\Providers\ThemeServic
 
 ## Dev Docs
 
-[https://docs.fresns.com/clients/theme/](https://docs.fresns.com/clients/theme/)
+[https://docs.fresns.com/clients/sdk/theme/](https://docs.fresns.com/clients/sdk/theme/)
 
 ## Contributing
 
